@@ -52,7 +52,6 @@ export default class App extends Vue {
     const currentDay = dayjs().get('date')
     const lastDayOfMonth = dayjs().endOf('month').get('date')
     const menus = this.menus;
-    console.log(currentYear, currentMonth, currentDay, lastDayOfMonth)
     for (let d = currentDay; d <= lastDayOfMonth; d++) {
       MealApi.getMenu(currentYear, currentMonth, d).then(function(result) {
         const data = result.data.menus;
