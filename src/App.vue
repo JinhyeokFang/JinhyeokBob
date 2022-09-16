@@ -16,7 +16,7 @@
     >
       <v-spacer>
       </v-spacer>
-      <Menu class="mt-4" v-for="(menu, index) in menus" :key="index" :year="menu.year" :month="menu.month" :day="menu.day" :breakfast="menu.breakfast" :lunch="menu.lunch" :dinner="menu.dinner" />
+      <Menu class="mt-4" v-for="menu in menus" :key="menu.day" :year="menu.year" :month="menu.month" :day="menu.day" :breakfast="menu.breakfast" :lunch="menu.lunch" :dinner="menu.dinner" />
     </v-main>
   </v-app>
 </template>
@@ -51,17 +51,21 @@ export default class App extends Vue {
     const currentMonth = dayjs().get('month') + 1
     const currentDay = dayjs().get('date')
     const lastDayOfMonth = dayjs().endOf('month').get('date')
+    const menus = this.menus;
     console.log(currentYear, currentMonth, currentDay, lastDayOfMonth)
     for (let d = currentDay; d <= lastDayOfMonth; d++) {
-      const request = await MealApi.getMenu(currentYear, currentMonth, d)
-      this.menus.push({
-        year: currentYear,
-        month: currentMonth,
-        day: d,
-        breakfast: request.data.breakfast,
-        lunch: request.data.lunch,
-        dinner: request.data.dinner
-      })
+      MealApi.getMenu(currentYear, currentMonth, d).then(function(result) {
+        const data = result.data.menus;
+        menus.push({
+          year: currentYear,
+          month: currentMonth,
+          day: d,
+          breakfast: data.breakfast,
+          lunch: data.lunch,
+          dinner: data.dinner
+        });
+        menus.sort((a, b) => a.day - b.day)
+      });
     }
   }
 }
