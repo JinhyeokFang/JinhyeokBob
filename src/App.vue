@@ -53,7 +53,7 @@ export default class App extends Vue {
     const lastDayOfMonth = dayjs().endOf('month').get('date')
     console.log(currentYear, currentMonth, currentDay, lastDayOfMonth)
     for (let d = currentDay; d <= lastDayOfMonth; d++) {
-      const request = await MealApi.getMenu(currentYear, currentMonth, currentDay)
+      const request = await MealApi.getMenu(currentYear, currentMonth, d)
       this.menus.push({
         year: currentYear,
         month: currentMonth,
