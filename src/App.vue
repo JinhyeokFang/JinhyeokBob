@@ -16,7 +16,7 @@
     >
       <v-spacer>
       </v-spacer>
-      <Menu v-for="(menu, index) in menus" :key="index" :year="menu.year" :month="menu.month" :day="menu.day" :breakfast="menu.breakfast" :lunch="menu.lunch" :dinner="menu.dinner" />
+      <Menu class="mt-4" v-for="(menu, index) in menus" :key="index" :year="menu.year" :month="menu.month" :day="menu.day" :breakfast="menu.breakfast" :lunch="menu.lunch" :dinner="menu.dinner" />
     </v-main>
   </v-app>
 </template>
