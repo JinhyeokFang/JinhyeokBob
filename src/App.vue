@@ -16,6 +16,7 @@
     >
       <v-spacer>
       </v-spacer>
+      <Clock />
       <Menu class="mt-4" v-for="menu in menus" :key="menu.day" :year="menu.year" :month="menu.month" :day="menu.day" :breakfast="menu.breakfast" :lunch="menu.lunch" :dinner="menu.dinner" />
     </v-main>
   </v-app>
@@ -24,6 +25,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import Menu from './components/Menu.vue'
+import Clock from './components/Clock.vue'
 import MealApi from './api/meal'
 import dayjs from 'dayjs'
 
@@ -38,7 +40,8 @@ interface DayMenu {
 
 @Options({
   components: {
-    Menu
+    Menu,
+    Clock
   }
 })
 export default class App extends Vue {
@@ -53,6 +56,12 @@ export default class App extends Vue {
     const lastDayOfMonth = dayjs().endOf('month').get('date')
     const menus = this.menus;
     for (let d = currentDay; d <= lastDayOfMonth; d++) {
+      const cache = window.localStorage.getItem(`${currentYear}-${currentMonth}-${d}`);
+      if (cache != undefined) {
+        const menu = JSON.parse(cache) as unknown;
+        menus.push(menu as DayMenu);
+        continue;
+      }
       MealApi.getMenu(currentYear, currentMonth, d).then(function(result) {
         const data = result.data.menus;
         menus.push({
@@ -63,7 +72,8 @@ export default class App extends Vue {
           lunch: data.lunch,
           dinner: data.dinner
         });
-        menus.sort((a, b) => a.day - b.day)
+        window.localStorage.setItem(`${currentYear}-${currentMonth}-${d}`,JSON.stringify(menus[menus.length - 1]));
+        menus.sort((a, b) => a.day - b.day);
       });
     }
   }
