@@ -1,9 +1,11 @@
 <template>
-  <v-card class="menu d-flex align-center ml-6">
+  <v-card class="menu d-flex-column align-center" @click="toggle">
     <v-card-text>
       <p class="text-h5 text--primary mb-3">
         {{ year }}년 {{ month }}월 {{ day }}일 메뉴
       </p>
+    </v-card-text>
+    <v-card-text v-if="show">
       <p class="text-h6 text--primary">
         아침
       </p>
@@ -41,6 +43,12 @@ export default class Menu extends Vue {
   breakfast!: string[];
   lunch!: string[];
   dinner!: string[];
+
+  show = true;
+
+  toggle() {
+    this.show = !this.show;
+  }
 }
 </script>
 

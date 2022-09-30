@@ -1,5 +1,5 @@
 <template>
-  <v-card class="menu d-flex align-center ml-6">
+  <v-card class="menu d-flex align-center">
     <v-card-text>
       <p class="text-h5 text--primary mb-3">
         D-{{ day }}

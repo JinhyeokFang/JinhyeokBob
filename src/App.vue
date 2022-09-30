@@ -2,17 +2,19 @@
   <v-app>
     <v-app-bar
       app
-      color="white"
+      :style="{ background: '#b2af3d' }" 
     >
       <div class="d-flex align-center ml-6">
-        <h1>밥</h1>
+        <h1
+      :style="{ color: '#fff' }" >이 달의 급식</h1>
       </div>
 
       <v-spacer></v-spacer>
     </v-app-bar>
     <v-main
       id="content"
-      class="d-flex flex-column align-center mt-8"
+      class="d-flex flex-column justify-center align-center mt-8"
+      :style="{ background: '#eee' }" 
     >
       <v-spacer>
       </v-spacer>
@@ -76,9 +78,18 @@ export default class App extends Vue {
         menus.sort((a, b) => a.day - b.day);
       });
     }
+
+    let letters = ['*', '*', '*', '*', '*', '급', '식', ' ', '메', '뉴', '*', '*', '*', '*', '*'];
+    setInterval(() => {
+      window.document.title = letters.join('');
+      letters.push(letters.splice(0, 1)[0]);
+    }, 1000);
   }
 }
 </script>
 
 <style>
+  #content {
+    background: '#aaa';
+  }
 </style>
