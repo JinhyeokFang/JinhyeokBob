@@ -61,8 +61,10 @@ export default class App extends Vue {
       const cache = window.localStorage.getItem(`${currentYear}-${currentMonth}-${d}`);
       if (cache != undefined) {
         const menu = JSON.parse(cache) as unknown;
-        menus.push(menu as DayMenu);
-        continue;
+        if ((menu as DayMenu).dinner.length != 0) {
+          menus.push(menu as DayMenu);
+          continue;
+        }
       }
       MealApi.getMenu(currentYear, currentMonth, d).then(function(result) {
         const data = result.data.menus;
